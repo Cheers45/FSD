@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Arrays & Strings</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+</head>
+
+<body class="container mt-5">
+
+    <h2 class="mb-4">Part 1: Array Operations</h2>
+
+    <?php
+
+    $array1 = ["Banana", "Apple", "Orange"];
+    $array2 = ["Grapes", "Mango"];
+
+    sort($array1);
+
+    echo "<p><strong>Sorted Array:</strong> " .
+        implode(", ", $array1) .
+        "</p>";
+
+    $mergedArray = array_merge($array1, $array2);
+
+    echo "<p><strong>Merged Array:</strong> " .
+        implode(", ", $mergedArray) .
+        "</p>";
+
+    $searchItem = "Apple";
+
+    if (in_array($searchItem, $mergedArray)) {
+
+        echo "<p class='text-success'>
+                <strong>Search:</strong>
+                '$searchItem' found at index "
+            . array_search($searchItem, $mergedArray) .
+            ".</p>";
+    }
+
+    ?>
+
+    <hr>
+
+    <h2 class="mb-4 mt-4">
+        Part 2: String Manipulation & Regex Validation
+    </h2>
+
+    <form method="POST" action="">
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                name="fullName"
+                class="form-control"
+                placeholder="e.g. John Doe"
+                required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                name="email"
+                class="form-control"
+                placeholder="example@gmail.com"
+                required>
+
+        </div>
+
+        <button
+            type="submit"
+            name="submit"
+            class="btn btn-primary">
+
+            Process
+
+        </button>
+
+    </form>
+
+    <?php
+
+    if (isset($_POST['submit'])) {
+
+        $name = $_POST['fullName'];
+        $email = $_POST['email'];
+
+        echo "<div class='alert alert-info mt-4'>";
+
+        $formattedName =
+            ucwords(strtolower(trim($name)));
+
+        echo "<p>
+                <strong>Formatted Name:</strong>
+                $formattedName
+              </p>";
+
+        $emailPattern =
+            "/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/";
+
+        if (preg_match($emailPattern, trim($email))) {
+
+            echo "<p class='text-success'>
+                    <strong>Email Status:</strong>
+                    Valid Format
+                  </p>";
+
+            $emailParts = explode("@", $email);
+
+            $domain = $emailParts[1];
+
+            echo "<p>
+                    <strong>Extracted Domain:</strong>
+                    $domain
+                  </p>";
+
+        } else {
+
+            echo "<p class='text-danger'>
+                    <strong>Email Status:</strong>
+                    Invalid Format
+                  </p>";
+        }
+
+        echo "</div>";
+    }
+
+    ?>
+
+</body>
+
+</html>
